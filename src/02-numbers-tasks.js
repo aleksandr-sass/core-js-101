@@ -87,7 +87,7 @@ function getDistanceBetweenPoints(x1, y1, x2, y2) {
  *   5*x = 0         => 0
  */
 function getLinearEquationRoot(a, b) {
-  return -b / a;
+  return (-b / a);
 }
 
 
@@ -110,7 +110,7 @@ function getLinearEquationRoot(a, b) {
  *   (0,1) (1,2)     => 0
  */
 function getAngleBetweenVectors(x1, y1, x2, y2) {
-  return Math.acos((x1 * x2 + y1 * y2) / (Math.sqrt((x1 ** 2 + y1 ** 2) * (x2 ** 2 + y2 ** 2))));
+  return Math.abs(Math.atan2(y2, x2) - Math.atan2(y1, x1));
 }
 
 /**
@@ -126,7 +126,7 @@ function getAngleBetweenVectors(x1, y1, x2, y2) {
  *     0     => 0
  */
 function getLastDigit(value) {
-  return value % 10;
+  return Number(value.toString().slice(-1));
 }
 
 
@@ -142,7 +142,7 @@ function getLastDigit(value) {
  * '-525.5'     => -525.5
  */
 function parseNumberFromString(value) {
-  return parseFloat(value);
+  return String(value);
 }
 
 /**
@@ -181,7 +181,8 @@ function getParallelepipedDiagonal(a, b, c) {
  *   1678, 3  => 2000
  */
 function roundToPowerOfTen(num, pow) {
-  return Math.round(num / 10 ** pow) * 10 ** pow;
+  const x = 10 ** pow;
+  return Math.round(num / x) * x;
 }
 
 /**
@@ -202,18 +203,13 @@ function roundToPowerOfTen(num, pow) {
  *   17 => true
  */
 function isPrime(n) {
-  if (n === 2 || n === 3) {
-    return true;
-  }
-  if (n <= 1 || n % 2 === 0 || n % 3 === 0) {
-    return false;
-  }
-  for (let i = 5; i ** 2 <= n; i += 6) {
-    if (n % i === 0 || n % (i + 2) === 0) {
-      return false;
+  let flag = true;
+  for (let i = 2; i < n; i += 1) {
+    if (n % i === 0) {
+      flag = false;
     }
   }
-  return true;
+  return flag;
 }
 
 /**
@@ -232,7 +228,11 @@ function isPrime(n) {
  *   toNumber(new Number(42), 0) => 42
  */
 function toNumber(value, def) {
-  return (Number.isNaN(parseFloat(value))) ? def : parseFloat(value);
+  let result = value;
+  if (Number.isNaN(Number(value)) || value === null) {
+    result = def;
+  }
+  return result;
 }
 
 module.exports = {
