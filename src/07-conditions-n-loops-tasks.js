@@ -27,17 +27,8 @@
  *  21 => 'Fizz'
  *
  */
-function getFizzBuzz(num) {
-  if (num % 5 === 0 && num % 3 === 0) {
-    return 'FizzBuzz';
-  }
-  if (num % 3 === 0) {
-    return 'Fizz';
-  }
-  if (num % 5 === 0) {
-    return 'Buzz';
-  }
-  return num;
+function getFizzBuzz(/* num */) {
+  throw new Error('Not implemented');
 }
 
 
@@ -52,12 +43,8 @@ function getFizzBuzz(num) {
  *   5  => 120
  *   10 => 3628800
  */
-function getFactorial(n) {
-  const newArr = [];
-  for (let i = 1; i <= n; i += 1) {
-    newArr.push(i);
-  }
-  return newArr.reduce((sum, current) => sum * current);
+function getFactorial(/* n */) {
+  throw new Error('Not implemented');
 }
 
 
@@ -73,12 +60,8 @@ function getFactorial(n) {
  *   5,10  =>  45 ( = 5+6+7+8+9+10 )
  *   -1,1  =>  0  ( = -1 + 0 + 1 )
  */
-function getSumBetweenNumbers(n1, n2) {
-  const newArr = [];
-  for (let i = n1; i <= n2; i += 1) {
-    newArr.push(i);
-  }
-  return newArr.reduce((sum, current) => sum + current);
+function getSumBetweenNumbers(/* n1, n2 */) {
+  throw new Error('Not implemented');
 }
 
 
@@ -97,11 +80,8 @@ function getSumBetweenNumbers(n1, n2) {
  *   10,1,1   =>  false
  *   10,10,10 =>  true
  */
-function isTriangle(a, b, c) {
-  if (a + b > c && a + c > b && b + c > a) {
-    return true;
-  }
-  return false;
+function isTriangle(/* a, b, c */) {
+  throw new Error('Not implemented');
 }
 
 
@@ -168,13 +148,8 @@ function doRectanglesOverlap(/* rect1, rect2 */) {
  *   { center: { x:0, y:0 }, radius:10 },  { x:10, y:10 }   => false
  *
  */
-function isInsideCircle(circle, point) {
-  const p1 = Math.abs(circle.center.x - point.x);
-  const p2 = Math.abs(circle.center.y - point.y);
-  if (p1 ** 2 + p2 ** 2 < circle.radius ** 2) {
-    return true;
-  }
-  return false;
+function isInsideCircle(/* circle, point */) {
+  throw new Error('Not implemented');
 }
 
 
@@ -233,8 +208,8 @@ function getIntervalString(/* a, b, isStartIncluded, isEndIncluded */) {
  * 'rotator' => 'rotator'
  * 'noon' => 'noon'
  */
-function reverseString(str) {
-  return str.split('').reverse().join('');
+function reverseString(/* str */) {
+  throw new Error('Not implemented');
 }
 
 
@@ -250,9 +225,10 @@ function reverseString(str) {
  *   87354 => 45378
  *   34143 => 34143
  */
-function reverseInteger(num) {
-  return Number(num.toString().split('').reverse().join(''));
+function reverseInteger(/* num */) {
+  throw new Error('Not implemented');
 }
+
 
 /**
  * Validates the CCN (credit card number) and return true if CCN is valid
