@@ -117,32 +117,187 @@ function fromJSON(proto, json) {
  */
 
 const cssSelectorBuilder = {
-  element(/* value */) {
-    throw new Error('Not implemented');
-  },
+  elementOrder: 100000,
+  idOrder: 10000,
+  classOrder: 1000,
+  attributeOrder: 100,
+  pseudoClassOrder: 10,
+  pseudoElementOrder: 1,
 
-  id(/* value */) {
-    throw new Error('Not implemented');
-  },
+  element(value) {
+    const obj = Object.create(this);
+    if (Object.prototype.hasOwnProperty.call(this, 'storage')) {
+      obj.storage = this.storage;
+    } else obj.storage = {};
 
-  class(/* value */) {
-    throw new Error('Not implemented');
-  },
+    const currentOrder = this.elementOrder;
 
-  attr(/* value */) {
-    throw new Error('Not implemented');
-  },
+    if (Object.prototype.hasOwnProperty.call(this, 'order')) {
+      obj.order = this.order;
+      if (currentOrder <= obj.order) {
+        obj.order = currentOrder;
+      } else {
+        throw new Error('Selector parts should be arranged in the following order: element, id, class, attribute, pseudo-class, pseudo-element');
+      }
+    } else {
+      obj.order = currentOrder;
+    }
 
-  pseudoClass(/* value */) {
-    throw new Error('Not implemented');
-  },
+    if (obj.storage.element) {
+      throw new Error('Element, id and pseudo-element should not occur more then one time inside the selector');
+    }
+    obj.storage.element = value;
 
-  pseudoElement(/* value */) {
-    throw new Error('Not implemented');
-  },
 
-  combine(/* selector1, combinator, selector2 */) {
-    throw new Error('Not implemented');
+    return obj;
+  },
+  id(value) {
+    const obj = Object.create(this);
+    if (Object.prototype.hasOwnProperty.call(this, 'storage')) {
+      obj.storage = this.storage;
+    } else obj.storage = {};
+
+    const currentOrder = this.idOrder;
+
+    if (Object.prototype.hasOwnProperty.call(this, 'order')) {
+      obj.order = this.order;
+      if (currentOrder <= obj.order) {
+        obj.order = currentOrder;
+      } else {
+        throw new Error('Selector parts should be arranged in the following order: element, id, class, attribute, pseudo-class, pseudo-element');
+      }
+    } else {
+      obj.order = currentOrder;
+    }
+
+    if (obj.storage.id) {
+      throw new Error('Element, id and pseudo-element should not occur more then one time inside the selector');
+    }
+
+    obj.storage.id = `#${value}`;
+    return obj;
+  },
+  class(value) {
+    const obj = Object.create(this);
+    if (Object.prototype.hasOwnProperty.call(this, 'storage')) {
+      obj.storage = this.storage;
+    } else obj.storage = {};
+
+    const currentOrder = this.classOrder;
+
+    if (Object.prototype.hasOwnProperty.call(this, 'order')) {
+      obj.order = this.order;
+      if (currentOrder <= obj.order) {
+        obj.order = currentOrder;
+      } else {
+        throw new Error('Selector parts should be arranged in the following order: element, id, class, attribute, pseudo-class, pseudo-element');
+      }
+    } else {
+      obj.order = currentOrder;
+    }
+
+    if (!Object.prototype.hasOwnProperty.call(obj.storage, 'class')) obj.storage.class = [];
+    obj.storage.class.push(`.${value}`);
+    return obj;
+  },
+  attr(value) {
+    const obj = Object.create(this);
+    if (Object.prototype.hasOwnProperty.call(this, 'storage')) {
+      obj.storage = this.storage;
+    } else obj.storage = {};
+
+    const currentOrder = this.attributeOrder;
+
+    if (Object.prototype.hasOwnProperty.call(this, 'order')) {
+      obj.order = this.order;
+      if (currentOrder <= obj.order) {
+        obj.order = currentOrder;
+      } else {
+        throw new Error('Selector parts should be arranged in the following order: element, id, class, attribute, pseudo-class, pseudo-element');
+      }
+    } else {
+      obj.order = currentOrder;
+    }
+
+    if (!Object.prototype.hasOwnProperty.call(obj.storage, 'attr')) obj.storage.attr = [];
+    obj.storage.attr.push(`[${value}]`);
+    return obj;
+  },
+  pseudoClass(value) {
+    const obj = Object.create(this);
+    if (Object.prototype.hasOwnProperty.call(this, 'storage')) {
+      obj.storage = this.storage;
+    } else obj.storage = {};
+
+
+    const currentOrder = this.pseudoClassOrder;
+
+    if (Object.prototype.hasOwnProperty.call(this, 'order')) {
+      obj.order = this.order;
+      if (currentOrder <= obj.order) {
+        obj.order = currentOrder;
+      } else {
+        throw new Error('Selector parts should be arranged in the following order: element, id, class, attribute, pseudo-class, pseudo-element');
+      }
+    } else {
+      obj.order = currentOrder;
+    }
+
+    if (!Object.prototype.hasOwnProperty.call(obj.storage, 'pseudoClass')) obj.storage.pseudoClass = [];
+    obj.storage.pseudoClass.push(`:${value}`);
+    return obj;
+  },
+  pseudoElement(value) {
+    const obj = Object.create(this);
+    if (Object.prototype.hasOwnProperty.call(this, 'storage')) {
+      obj.storage = this.storage;
+    } else obj.storage = {};
+
+    const currentOrder = this.pseudoElementOrder;
+
+    if (Object.prototype.hasOwnProperty.call(this, 'order')) {
+      obj.order = this.order;
+      if (currentOrder <= obj.order) {
+        obj.order = currentOrder;
+      } else {
+        throw new Error('Selector parts should be arranged in the following order: element, id, class, attribute, pseudo-class, pseudo-element');
+      }
+    } else {
+      obj.order = currentOrder;
+    }
+
+    if (obj.storage.pseudoElement) {
+      throw new Error('Element, id and pseudo-element should not occur more then one time inside the selector');
+    }
+
+
+    obj.storage.pseudoElement = `::${value}`;
+    return obj;
+  },
+  combine(selector1, combinator, selector2) {
+    const A = selector1.stringify();
+    const B = selector2.stringify();
+    const C = ` ${combinator} `;
+    const obj = Object.create(cssSelectorBuilder);
+    obj.resultString = A + C + B;
+    return obj;
+  },
+  stringify() {
+    if (Object.prototype.hasOwnProperty.call(this, 'resultString')) return this.resultString;
+    const obj = Object.create(this);
+
+    if (Object.prototype.hasOwnProperty.call(this, 'storage')) {
+      obj.storage = this.storage;
+    } else obj.storage = {};
+
+    let s = '';
+    if (obj.storage.element) s += obj.storage.element;
+    if (obj.storage.id) s += obj.storage.id;
+    if (obj.storage.class) s += obj.storage.class.join('');
+    if (obj.storage.attr) s += obj.storage.attr.join('');
+    if (obj.storage.pseudoClass) s += obj.storage.pseudoClass.join('');
+    if (obj.storage.pseudoElement) s += obj.storage.pseudoElement;
+    return s;
   },
 };
 
