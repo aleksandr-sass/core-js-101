@@ -474,7 +474,7 @@ function getIdentityMatrix(n) {
  *     3, 3   => [ 3 ]
  */
 function getIntervalArray(start, end) {
-  return '0'.repeat(end - start + 1).split('').map((el, index) => +el + start + index);
+  return Array(end - start + 1).fill(0).map((_, index) => start + index);
 }
 
 /**
