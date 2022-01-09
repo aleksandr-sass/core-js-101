@@ -571,17 +571,7 @@ function selectMany(arr, childrenSelector) {
  *   [[[ 1, 2, 3]]], [ 0, 0, 1 ]      => 2        (arr[0][0][1])
  */
 function getElementByIndexes(arr, indexes) {
-  let m = [...arr];
-  let steps = indexes.length;
-  const step = (key) => {
-    m = m[key];
-    steps -= 1;
-    indexes.shift();
-    if (steps > 0) return step(indexes[0]);
-    return m;
-  };
-  if (steps > 0) return step(indexes[0]);
-  return m;
+  return indexes.reduce((previous, current) => previous[current], arr);
 }
 
 
