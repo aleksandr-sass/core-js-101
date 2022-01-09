@@ -453,12 +453,10 @@ function sortCitiesArray(arr) {
  *           [0,0,0,0,1]]
  */
 function getIdentityMatrix(n) {
-  const arr = '0'.repeat(n).split('').map((el) => +el);
-  const middle = [...arr];
-  const matrix = arr.map(() => [...middle]);
-  return matrix.map((el, index) => {
-    matrix[index][index] = 1;
-    return el;
+  return Array(n).fill(Array(n).fill(0)).map((el, i) => {
+    const copy = [...el];
+    copy[i] += 1;
+    return copy;
   });
 }
 
