@@ -66,6 +66,16 @@ function processAllPromises(array) {
   return Promise.all(array);
 }
 
+function processAllPromisesSettled(array) {
+  return Promise.resolve(
+    Promise
+      .allSettled(array)
+      .then((value) => value
+        .filter((el) => el.status === 'fulfilled')
+        .map((obj) => obj.value)),
+  );
+}
+
 /**
  * Return Promise object that should be resolved with value received from
  * Promise object that will be resolved first.
@@ -106,8 +116,8 @@ function getFastestPromise(array) {
  *    });
  *
  */
-function chainPromises(/* array, action */) {
-  throw new Error('Not implemented');
+function chainPromises(array, action) {
+  return processAllPromisesSettled(array).then((value) => value.reduce(action));
 }
 
 module.exports = {
