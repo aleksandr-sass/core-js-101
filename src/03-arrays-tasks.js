@@ -273,17 +273,7 @@ function getSecondItems(arr) {
  *  [ 1,2,3,4,5 ] => [ 1, 2,2, 3,3,3, 4,4,4,4, 5,5,5,5,5 ]
  */
 function propagateItemsByPositionIndex(arr) {
-  let res = [];
-  const converter = (el, index) => {
-    res.push(el);
-    if (index === 0) {
-      const middle = [...res];
-      res = [];
-      return middle;
-    }
-    return converter(el, index - 1);
-  };
-  return arr.map((el, index) => converter(el, index)).flat();
+  return arr.map((el, i) => Array(i + 1).fill(el)).flat();
 }
 
 
