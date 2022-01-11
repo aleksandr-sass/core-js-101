@@ -514,8 +514,69 @@ function getMatrixProduct(a, b) {
  *    [    ,   ,    ]]
  *
  */
-function evaluateTicTacToePosition(/* position */) {
-  throw new Error('Not implemented');
+function evaluateTicTacToePosition(pos) {
+  const arr = ['X', '0'];
+  // 1
+  //   [[ 'X','X','X' ],
+  //    [    ,   ,    ],       =>  'X'
+  //    [    ,   ,    ]]
+  if ((arr.indexOf(pos[0][0]) > -1) && (pos[0][0] === pos[0][1]) && (pos[0][0] === pos[0][2])) {
+    return pos[0][0];
+  }
+  // 2
+  //   [[ 'X',   ,    ],
+  //    [    ,'X',    ],       =>  'X'
+  //    [    ,   ,'X' ]]
+  if ((arr.indexOf(pos[0][0]) > -1) && (pos[0][0] === pos[1][1]) && (pos[0][0] === pos[2][2])) {
+    return pos[0][0];
+  }
+  // 3
+  //   [[ 'X',   ,    ],
+  //    [ 'X',   ,    ],       =>  'X'
+  //    [ 'X',   ,    ]]
+  if ((arr.indexOf(pos[0][0]) > -1) && (pos[0][0] === pos[1][0]) && (pos[0][0] === pos[2][0])) {
+    return pos[0][0];
+  }
+  // 4
+  //   [[    ,    ,    ],
+  //    [ 'X', 'X', 'X'],       =>  'X'
+  //    [    ,    ,    ]]
+  if ((arr.indexOf(pos[1][0]) > -1) && (pos[1][0] === pos[1][1]) && (pos[1][0] === pos[1][2])) {
+    return pos[1][0];
+  }
+  // 5
+  //   [[    ,    ,    ],
+  //    [    ,    ,    ],       =>  'X'
+  //    [ 'X', 'X', 'X']]
+  if ((arr.indexOf(pos[2][0]) > -1) && (pos[2][0] === pos[2][1]) && (pos[2][0] === pos[2][2])) {
+    return pos[2][0];
+  }
+  // 6
+  //   [[    , 'X',    ],
+  //    [    , 'X',    ],       =>  'X'
+  //    [    , 'X',    ]]
+  if ((arr.indexOf(pos[0][1]) > -1) && (pos[0][1] === pos[1][1]) && (pos[0][1] === pos[2][1])) {
+    return pos[0][1];
+  }
+  // 7
+  //   [[    ,    , 'X'],
+  //    [    ,    , 'X'],       =>  'X'
+  //    [    ,    , 'X']]
+  if ((arr.indexOf(pos[0][2]) > -1) && (pos[0][2] === pos[1][2]) && (pos[0][2] === pos[2][2])) {
+    return pos[0][2];
+  }
+  // 8
+  //   [[    ,    , 'X'],
+  //    [    , 'X',    ],       =>  'X'
+  //    [ 'X',    ,    ]]
+  if (((arr.indexOf(pos[2][0]) > -1) && pos[2][0] === pos[1][1]) && (pos[2][0] === pos[0][2])) {
+    return pos[2][0];
+  }
+  // 9
+  //   [[ ???, ???, ???],
+  //    [ ???, ???, ???],       =>  'X'
+  //    [ ???, ???, ???]]
+  return undefined;
 }
 
 
